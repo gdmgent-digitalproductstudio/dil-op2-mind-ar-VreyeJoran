@@ -4,11 +4,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>PokéTrainer AR Experience</title>
+
+    <link rel="stylesheet" href="./css/main.css">
+
+    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/dist/mindar-image.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-extras@latest/dist/aframe-extras.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
 
 <body>
+    <a-scene class="ar-scene" embedded
+        mindar-image="imageTargetSrc: ./assets/targets.mind; maxTrack: 1; missTolerance: 10" color-space="sRGB"
+        renderer="colorManagement: true, physicallyCorrectLights" device-orientation-permission-ui="enabled: false"
+        vr-mode-ui="enabled: false">
 
+        <a-camera active="false" look-controls="enabled: false" position="0 0 0"></a-camera>
+
+        <a-assets>
+            <a-asset-item id="pikachu" src="assets/models/pikachu.glb"></a-asset-item>
+            <a-asset-item id="potion" src="assets/models/potion.glb"></a-asset-item>
+            <a-asset-item id="pokeball" src="assets/models/pokeball.glb"></a-asset-item>
+            <a-asset-item id="pokedex" src="assets/models/pokedex.glb"></a-asset-item>
+        </a-assets>
+
+        <a-entity mindar-image-target="targetIndex: 0">
+            <a-gltf-model src="#pikachu" scale="3 3 3" position="0 0 0"></a-gltf-model>
+        </a-entity>
+        <a-entity mindar-image-target="targetIndex: 1">
+            <a-gltf-model src="#pokeball" scale="0.2 0.2 0.2" position="0 0 0"></a-gltf-model>
+        </a-entity>
+        <a-entity mindar-image-target="targetIndex: 2">
+            <a-gltf-model src="#pokedex" scale="0.05 0.05 0.05" position="0 0 1" rotation="0 180 0"></a-gltf-model>
+        </a-entity>
+        <a-entity mindar-image-target="targetIndex: 3">
+            <a-gltf-model src="#potion" scale="50 50 50" position="0 0 0"></a-gltf-model>
+        </a-entity>
+    </a-scene>
+    <div class="overlay-container">
+        <img src="./assets/images/squirtle.png" alt="Squirtle" class="pokemon pokemon--squirtle">
+        <img src="./assets/images/charmander.png" alt="Charmander" class="pokemon pokemon--charmander">
+        <img src="./assets/images/bulbasaur.png" alt="Bulbasaur" class="pokemon pokemon--bulbasaur">
+        <img src="./assets/images/grass.png" alt="Grass foreground" class="environment">
+        <div class="text-wrapper text-wrapper--catch">
+            <h1 id="appeared-pokemon-text" class="text-wrapper__title">A wild <span id="appeared-pokemon"></span>
+                appeared!</h1>
+            <p id="instruction-text" class="text-wrapper__text"></p>
+        </div>
+        <div class="ar-container">
+            <div class="header">
+                <a class="button button--yellow" href="index.html">Go Back</a>
+                <div class="text-wrapper text-wrapper--ar">
+                    <h1 class="text-wrapper__title">Catch your first Pokémon!</h1>
+                    <p class="text-wrapper__text">Follow the instructions on screen to catch your Pokémon!</p>
+                </div>
+                <div class="buttons-wrapper buttons-wrapper--ar">
+                    <button class="button" id="swap-pokemon-btn">Continue Exploring</button>
+                    <button class="button" id="reset-pokemon-btn">Reset Pokémon</button>
+                    <button class="button" id="download-markers-btn">Download Markers</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="./scripts/image.js"></script>
 </body>
 
 </html>
